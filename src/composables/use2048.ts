@@ -110,7 +110,7 @@ export function use2048() {
   }
 
   const move = (direction: Direction) => {
-    let _board = deepClone(board.value)
+    let _board = deepClone(board.value) as any[][]
 
     const [startRow, endRow, rowStep] = direction === 'down'
       ? [0, rows.value, 1]
