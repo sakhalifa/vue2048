@@ -41,9 +41,9 @@ Par défaut les jobs à l'intérieur d'un stage s'exécutent en parallèle, modi
 
 ## 3. Variables et Conditions
 
-- Définir un paramètre de pipeline "Version" représentant la version du package au format [SemVer](https://semver.org/). Nommer le package généré par la build de la manière suivante : {nomduprojet}_{version}.
+- Définir un [paramètre](https://docs.gitlab.com/ee/ci/variables/) de pipeline "Version" représentant la version du package au format [SemVer](https://semver.org/). Nommer le package généré par la build de la manière suivante : {nomduprojet}_{version}.
 
-- Modifier le pipeline pour ne publier l'artifact que sur une exécution manuelle
+- Modifier le pipeline pour ne lancer l'analyse statique que sur une exécution manuelle
 
 - Modifier le pipeline pour ne lancer les tests que si l'on se trouve sur la branche main
 
