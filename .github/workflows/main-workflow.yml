@@ -40,7 +40,7 @@ jobs:
         needs: cache-and-install
         steps:
             - name: Install and restore cache
-              uses: ./action.yml
+              uses: ./restore-and-install
             
             - name: Build
               run: pnpm run build
