@@ -1,6 +1,6 @@
 name: Main Workflow
 run-name: Running main workflow
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
 jobs:
     cache-and-install:
         runs-on: ubuntu-latest
