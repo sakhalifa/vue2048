@@ -39,45 +39,31 @@ jobs:
         runs-on: ubuntu-latest
         needs: cache-and-install
         steps:
-            - name: Checkout
-              uses: actions/checkout@v4
-
-            - name: Install Node.js
-              uses: actions/setup-node@v4
-              with:
-                node-version: 20
-      
-            - uses: pnpm/action-setup@v3
-              name: Install pnpm
-              with:
-                version: 8
-                run_install: false
-
-            - name: Get pnpm store directory
-              shell: bash
-              run: |
-                  echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-        
-            - uses: actions/cache/restore@v4
-              name: Use pnpm cache
-              with:
-                path: ${{ env.STORE_PATH }}
-                key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+            - name: Install and restore cache
+              uses: ./action.yml
             
-            - name: Install dependencies
-              run:
-                pnpm install
             - name: Build
               run: pnpm run build
+            
+            - name: Create artifact
+              if: github.ref_name == 'main'
+              uses: actions/upload-artifact@v4
+              with:
+                name: release
+                retention-days: 7
+                path: |
+                    dist/
     lint:
         runs-on: ubuntu-latest
-        needs: build
+        needs: cache-and-install
         if: github.event_name == 'pull_request'
         steps:
-            - run: pnpm run lint
+            - name: Lint
+              run: pnpm run lint
     type-check:
         runs-on: ubuntu-latest
-        needs: build
+        needs: cache-and-install
         if: github.event_name == 'pull_request'
         steps:
-            - run: pnpm run type-check
+            - name: Type check
+              run: pnpm run type-check
