@@ -16,5 +16,5 @@ runs:
         SWA_CLI_DEPLOYMENT_TOKEN: ${{ inputs.token }}
         SWA_CLI_PROJECT_NAME: ${{ inputs.project_name }}
       run: |
-        pnpm dlx @azure/static-web-apps-cli deploy -n ${SWA_CLI_PROJECT_NAME} ./dist/ --env Production
+        pnpm dlx @azure/static-web-apps-cli deploy -a ./dist/ -n ${SWA_CLI_PROJECT_NAME} --env Production
       
