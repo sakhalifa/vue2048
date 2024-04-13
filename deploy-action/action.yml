@@ -1,0 +1,20 @@
+name: 'Deploy on Azure SWA'
+description: 'Deploys the build output on a SWA application'
+inputs:
+  token:
+    description: 'The SWA deploy token'
+    required: true
+  project_name:
+    description: 'The name of the SWA resource'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Deploy it
+      shell: bash
+      env:
+        SWA_CLI_DEPLOYMENT_TOKEN: ${{ inputs.token }}
+        SWA_CLI_PROJECT_NAME: ${{ inputs.project_name }}
+      run: |
+        pnpm dlx @azure/static-web-apps-cli -n ${SWA_CLI_PROJECT_NAME} ./dist/ --env Production
+      

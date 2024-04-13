@@ -55,6 +55,42 @@ jobs:
                 retention-days: 7
                 path: |
                     dist/
+    deploy-qa:
+      runs-on: ubuntu-latest
+      environment: deploy-QA
+      if: github.event_name == 'workflow_dispatch'
+      steps:
+            - uses: actions/checkout@v4
+              
+            - name: Install pnpm and restore cache
+              uses: ./restore-and-install
+            
+            - name: Build
+              run: pnpm run build
+
+            - name: Deploy
+              uses: ./deploy-action
+              with:
+                token: ${{ secrets.SWA_CLI_DEPLOYMENT_TOKEN }}
+                name: ${{ env.SWA_CLI_PROJECT_NAME }}
+    deploy-prod:
+      runs-on: ubuntu-latest
+      environment: deploy-prod
+      if: github.event_name == 'workflow_dispatch' && github.ref_name == 'main'
+      steps:
+            - uses: actions/checkout@v4
+              
+            - name: Install pnpm and restore cache
+              uses: ./restore-and-install
+            
+            - name: Build
+              run: pnpm run build
+
+            - name: Deploy
+              uses: ./deploy-action
+              with:
+                token: ${{ secrets.SWA_CLI_DEPLOYMENT_TOKEN }}
+                name: ${{ env.SWA_CLI_PROJECT_NAME }}
     lint:
         runs-on: ubuntu-latest
         needs: cache-and-install
