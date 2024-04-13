@@ -51,7 +51,7 @@ jobs:
               if: github.ref_name == 'main'
               uses: actions/upload-artifact@v4
               with:
-                name: release
+                name: vue2048-release
                 retention-days: 7
                 path: |
                     dist/
