@@ -7,14 +7,18 @@ inputs:
   project_name:
     description: 'The name of the SWA resource'
     required: true
+outputs:
+  deploy-url:
+    description: "The url the project was deployed to"
+    value: ${{ steps.deploy.outputs.url }}
 runs:
   using: "composite"
   steps:
-    - name: Deploy it
+    - name: Deploy
       shell: bash
       env:
         SWA_CLI_DEPLOYMENT_TOKEN: ${{ inputs.token }}
         SWA_CLI_PROJECT_NAME: ${{ inputs.project_name }}
       run: |
-        pnpm dlx @azure/static-web-apps-cli deploy -a ./dist/ -n ${SWA_CLI_PROJECT_NAME} --env Production
+        echo "url=$(pnpm dlx @azure/static-web-apps-cli deploy -a ./dist/ -n ${SWA_CLI_PROJECT_NAME} --env Production 2>&1 1>/dev/null | tail -n 1 | cut -d ' ' -f5)" >> "$GITHUB_OUTPUT"
       
