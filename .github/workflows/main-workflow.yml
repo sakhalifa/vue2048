@@ -2,7 +2,11 @@ name: Main Workflow
 run-name: Running main workflow
 on:
   push:
+    paths-ignore: 
+      docs/**
   pull_request:
+    paths-ignore: 
+      docs/**
   workflow_dispatch:
     inputs:
       run_lint:
