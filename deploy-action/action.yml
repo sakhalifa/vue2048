@@ -10,11 +10,15 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Install swa CLI
+      shell: bash
+      run: |
+        pnpm install @azure/static-web-apps-cli
     - name: Deploy it
       shell: bash
       env:
         SWA_CLI_DEPLOYMENT_TOKEN: ${{ inputs.token }}
         SWA_CLI_PROJECT_NAME: ${{ inputs.project_name }}
       run: |
-        pnpm dlx @azure/static-web-apps-cli -n ${SWA_CLI_PROJECT_NAME} ./dist/ --env Production
+        pnpm swa -n ${SWA_CLI_PROJECT_NAME} ./dist/ --env Production
       
